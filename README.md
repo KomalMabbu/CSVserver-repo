@@ -28,15 +28,3 @@ docker stop
 docker rm
 6.
 docker run -d -p 9393:9300 -v $(pwd)/inputFile:/csvserver/inputdata -e CSVSERVER_BORDER=Orange --name csvserver_with_file infracloudio/csvserver:latest
-
-
-
-
-
-
-
-
-
-
-
-
