@@ -1,3 +1,4 @@
+  GNU nano 4.8                                                                     docker-compose.yaml                                                                                
 version: "3.8"
 services:
   csvserver:
@@ -9,3 +10,22 @@ services:
       - ./inputFile:/csvserver/inputdata
     environment:
       - CSVSERVER_BORDER=Orange
+    networks:
+      - monitoring
+    # Make sure your CSV server exposes the /metrics endpoint.
+    # If CSV server does not expose /metrics endpoint, you will need to update it
+    # or use an exporter to expose Prometheus-compatible metrics.
+
+  prometheus:
+    image: prom/prometheus:v2.45.2
+    container_name: prometheus
+    ports:
+      - "9090:9090"  # Expose Prometheus on localhost:9090
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml  # Config file
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
