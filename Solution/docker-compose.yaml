@@ -1,0 +1,26 @@
+  GNU nano 4.8                                                                     docker-compose.yaml                                                                                
+version: "3.8"
+services:
+  csvserver:
+    image: infracloudio/csvserver:latest
+    container_name: csvserver_with_file
+    ports:
+      - "9393:9300"
+    volumes:
+      - ./inputFile:/csvserver/inputdata
+    environment:
+      - CSVSERVER_BORDER=Orange
+    networks:
+      - monitoring
+  prometheus:
+    image: prom/prometheus:v2.45.2
+    container_name: prometheus
+    ports:
+      - "9090:9090"  # Expose Prometheus on localhost:9090
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml  # Config file
+    networks:
+      - monitoring
+networks:
+  monitoring:
+    driver: bridge
