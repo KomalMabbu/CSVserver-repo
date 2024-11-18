@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s  # Scrape every 15 seconds
+
+scrape_configs:
+  - job_name: 'csvserver'
+    metrics_path: '/metrics'  # The CSV server should expose metrics at this endpoint
+    static_configs:
+      - targets: ['csvserver:9300']  # Target the CSV server container
+
